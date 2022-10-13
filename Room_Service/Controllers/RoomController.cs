@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol.Core.Types;
+using Room_Service.Data;
 using Room_Service.DTO;
 using Room_Service.Entities;
 using Room_Service.Models;
@@ -23,108 +25,41 @@ namespace Room_Service.Controllers
             _context = context;
         }
 
-        // GET: api/Room/GetRooms
-        [HttpGet("GetRooms")]
-        public async Task<ActionResult<IEnumerable<RoomDTO>>> Get()
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Workspace>), 200)]
+        public async Task<ActionResult<IEnumerable<Workspace>>> GetProducts()
         {
-            var List = await _context.Rooms.Select(
-                s => new RoomDTO
-                {
-                    Id = s.Id,
-                    HostUser = s.HostUser,
-                    InvitedUser = s.InvitedUser,
-                    Name = s.Name,
-                }
-            ).ToListAsync();
+            return Ok();
+        }
 
-            if (List.Count < 0)
+        [HttpGet("{id:length(24)}", Name = "GetProduct")]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Workspace>> GetProductById(string id)
+        {
+            var product = id;
+
+            if (product == null)
             {
                 return NotFound();
             }
-            else
-            {
-                return List;
-            }
+
+            return Ok(product);
         }
 
-        // GET: api/Room/GetRoom/5
-        [HttpGet("GetRoom/{id}")]
-        public async Task<ActionResult<RoomDTO>> Get(Guid id)
+        [Route("category/{category}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Workspace>>> GetProductsByCategory(string category)
         {
-            RoomDTO? Room = await _context.Rooms.Select(
-                    s => new RoomDTO
-                    {
-                        Id = s.Id,
-                        HostUser = s.HostUser,
-                        InvitedUser = s.InvitedUser,
-                        Name = s.Name,
-                    })
-                .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (Room == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Room;
-            }
+            return Ok();
         }
 
-        // GET api/Room/GetMyRooms/5
-        [HttpGet("GetMyRooms/{id}")]
-        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetMyRooms(Guid id)
+        [HttpPost]
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Workspace>> CreateProduct([FromBody] Workspace product)
         {
-            var List = await _context.Rooms.Select(
-                s => new RoomDTO
-                {
-                    Id = s.Id,
-                    HostUser = s.HostUser,
-                    InvitedUser = s.InvitedUser,
-                    Name = s.Name,
-                }
-            ).Where(s => s.HostUser == id || s.InvitedUser == id).ToListAsync();
-
-            if (List.Count < 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return List;
-            }
-        }
-
-        // POST: api/Room/CreateRoom
-        [HttpPost("CreateRoom")]
-        public async Task<HttpStatusCode> Post(RoomDTO Room)
-        {
-            var entity = new Room()
-            {
-                Id = Room.Id,
-                HostUser = Room.HostUser,
-                InvitedUser = Room.InvitedUser,
-                Name = Room.Name,
-            };
-
-            _context.Rooms.Add(entity);
-            await _context.SaveChangesAsync();
-
-            return HttpStatusCode.Created;
-        }
-
-        // DELETE: api/Room/DeleteRoom/5
-        [HttpDelete("DeleteRoom/{id}")]
-        public async Task<HttpStatusCode> Delete(Guid id)
-        {
-            var entity = new Room()
-            {
-                Id = id
-            };
-            _context.Rooms.Attach(entity);
-            _context.Rooms.Remove(entity);
-            await _context.SaveChangesAsync();
-            return HttpStatusCode.OK;
+            return Ok();
         }
     }
 }

@@ -1,15 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using Room_Service.Data;
 using Room_Service.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddDbContext<DBContext>(options =>
-{
-    var connectionString = builder.Configuration.GetValue<string>("CosmosDB:DefaultConnection");
-    var connectionKey = builder.Configuration.GetValue<string>("CosmosDB:CosmosAPIKey");
-    options.UseCosmos(connectionString, connectionKey);
-});
+builder.Services.AddScoped<IDBContext, DBContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
