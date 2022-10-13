@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  room_service:
+    image: ${DOCKER_REGISTRY-}roomservice
+    build:
+      context: .
+      dockerfile: Room_Service/Dockerfile
