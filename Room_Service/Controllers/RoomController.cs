@@ -23,7 +23,7 @@ namespace Room_Service.Controllers
             _context = context;
         }
 
-        // GET: api/Room
+        // GET: api/Room/GetRooms
         [HttpGet("GetRooms")]
         public async Task<ActionResult<IEnumerable<RoomDTO>>> Get()
         {
@@ -47,7 +47,7 @@ namespace Room_Service.Controllers
             }
         }
 
-        // GET: api/Room/5
+        // GET: api/Room/GetRoom/5
         [HttpGet("GetRoom/{id}")]
         public async Task<ActionResult<RoomDTO>> Get(Guid id)
         {
@@ -71,7 +71,31 @@ namespace Room_Service.Controllers
             }
         }
 
-        // POST: api/Room
+        // GET api/Room/GetMyRooms/5
+        [HttpGet("GetMyRooms/{id}")]
+        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetMyRooms(Guid id)
+        {
+            var List = await _context.Rooms.Select(
+                s => new RoomDTO
+                {
+                    Id = s.Id,
+                    HostUser = s.HostUser,
+                    InvitedUser = s.InvitedUser,
+                    Name = s.Name,
+                }
+            ).Where(s => s.HostUser == id || s.InvitedUser == id).ToListAsync();
+
+            if (List.Count < 0)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return List;
+            }
+        }
+
+        // POST: api/Room/CreateRoom
         [HttpPost("CreateRoom")]
         public async Task<HttpStatusCode> Post(RoomDTO Room)
         {
@@ -89,7 +113,7 @@ namespace Room_Service.Controllers
             return HttpStatusCode.Created;
         }
 
-        // DELETE: api/Room/5
+        // DELETE: api/Room/DeleteRoom/5
         [HttpDelete("DeleteRoom/{id}")]
         public async Task<HttpStatusCode> Delete(Guid id)
         {
