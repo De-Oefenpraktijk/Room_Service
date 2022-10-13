@@ -6,8 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<DBContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    var connectionString = builder.Configuration.GetValue<string>("CosmosDB:DefaultConnection");
+    var connectionKey = builder.Configuration.GetValue<string>("CosmosDB:CosmosAPIKey");
+    options.UseCosmos(connectionString, connectionKey);
 });
 
 builder.Services.AddControllers();

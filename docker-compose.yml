@@ -5,4 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}roomservice
     build:
       context: .
-      dockerfile: Room_Service/Dockerfile
+      dockerfile: Dockerfile
+
+  cosmosdb:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
