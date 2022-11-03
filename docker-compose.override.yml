@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  room_service:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
+
+  nosqldb:
+    container_name: room_service_nosqldb
+    restart: always
+    ports:
+      - "27017:27017"
