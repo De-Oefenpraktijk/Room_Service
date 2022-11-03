@@ -16,7 +16,6 @@ namespace Room_Service.DTO
         [Required]
         public string? ImageFile { get; set; }
 
-        [Required]
         public List<RoomDTO>? rooms { get; set; }
 
         public List<FileDTO>? files { get; set; }

@@ -9,6 +9,3 @@ services:
 
   nosqldb:
     image: mongo
-
-  #cosmosdb:
-  #  image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
