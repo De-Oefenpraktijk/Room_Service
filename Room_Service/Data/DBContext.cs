@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Room_Service.Models;
 using Room_Service.DTO;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Driver;
@@ -15,8 +14,11 @@ namespace Room_Service.Data
             var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
             Workspaces = database.GetCollection<Workspace>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            Rooms = database.GetCollection<Room>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
         }
 
         public IMongoCollection<Workspace> Workspaces { get; }
+
+        public IMongoCollection<Room> Rooms { get; }
     }
 }

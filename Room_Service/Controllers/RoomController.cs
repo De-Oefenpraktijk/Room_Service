@@ -5,12 +5,13 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Core.Types;
+using Room_Service.Contracts;
 using Room_Service.Data;
 using Room_Service.DTO;
 using Room_Service.Entities;
-using Room_Service.Models;
 
 namespace Room_Service.Controllers
 {
@@ -18,48 +19,62 @@ namespace Room_Service.Controllers
     [ApiController]
     public class RoomController : ControllerBase
     {
-        private readonly DBContext _context;
+        private readonly IRoomService _roomService;
 
-        public RoomController(DBContext context)
+        public RoomController(IRoomService roomService)
         {
-            _context = context;
+            _roomService = roomService;
         }
 
+        [Route("{workspaceid}/{userid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Workspace>), 200)]
-        public async Task<ActionResult<IEnumerable<Workspace>>> GetProducts()
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<WorkspaceDTO>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
+        {
+            var result = await _roomService.GetUserRooms(userid, workspaceid);
+            if (result == null) {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [Route("room/{roomid}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<RoomDTO>> GetRoomByID(string roomid)
+        {
+            var result = await _roomService.GetRoomByID(roomid);
+            if (result.rooms == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<RoomDTO>> UpdateRoom([FromBody] Room product)
         {
             return Ok();
         }
 
-        [HttpGet("{id:length(24)}", Name = "GetProduct")]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [HttpDelete]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetProductById(string id)
-        {
-            var product = id;
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(product);
-        }
-
-        [Route("category/{category}")]
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<IEnumerable<Workspace>>> GetProductsByCategory(string category)
+        public async Task<ActionResult<Workspace>> DeleteRoom([FromBody] Room product)
         {
             return Ok();
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> CreateProduct([FromBody] Workspace product)
+        public async Task<ActionResult<Workspace>> CreateRoom([FromBody] Room room)
         {
-            return Ok();
+            var result = await _roomService.CreateRoom(room);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }

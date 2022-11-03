@@ -8,16 +8,13 @@ namespace Room_Service.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; } = null!;
+        public string? Id { get; set; }
+        [BsonRequired]
         public string Name { get; set; } = null!;
-        public string ?ImageFile { get; set; }
+        public string? ImageFile { get; set; }
 
         [BsonElement("items")]
         [JsonPropertyName("items")]
-        public List<Room> ?rooms { get; set; }
-
-        [BsonElement("items")]
-        [JsonPropertyName("items")]
-        public List<Files> ?files { get; set; }
+        public List<Files>? files { get; set; }
     }
 }

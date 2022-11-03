@@ -1,18 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Room_Service.Entities;
 
 namespace Room_Service.DTO
 {
     public class RoomDTO
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         [Required]
-        public Guid HostUser { get; set; }
-
+        public string RoomId { get; set; }
         [Required]
-        public Guid InvitedUser { get; set; }
+        public string HostUser { get; set; }
 
-        public string Name { get; set; } = String.Empty;
+        public IEnumerable<string> InvitedUsers { get; set; }
+
+        public DateTime ScheduledDate { get; set; }
+
+        public RoomDTO(Room room)
+        {
+            RoomId = room.roomId!;
+            HostUser = room.hostId;
+            InvitedUsers = room.invitedIds;
+            ScheduledDate = room.scheduledDate;
+        }
     }
 }
