@@ -36,7 +36,7 @@ jobs:
             export PATH="${PATH}:/root/.dotnet/tools"
             dotnet new tool-manifest --force
             dotnet tool install dotnet-sonarscanner
-            dotnet sonarscanner begin /k:"oefenpraktijk-social" /d:sonar.host.url="http://185.182.185.197:9000" /d:sonar.login=$SONARQUBE_LOGIN
+            dotnet sonarscanner begin /k:"oefenpraktijk-room" /d:sonar.host.url="http://185.182.185.197:9000" /d:sonar.login=$SONARQUBE_LOGIN
             dotnet build
             dotnet sonarscanner end /d:sonar.login=$SONARQUBE_LOGIN
 workflows:
