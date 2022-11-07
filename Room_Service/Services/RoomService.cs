@@ -19,6 +19,7 @@ namespace Room_Service.Services.Services
 
         public async Task<RoomDTO> CreateRoom(Room room)
         {
+            
             await _context.Rooms.InsertOneAsync(room);
             return new RoomDTO(room);
         }
@@ -54,6 +55,12 @@ namespace Room_Service.Services.Services
         {
             await _context.Rooms.ReplaceOneAsync(x => x.roomId == room.roomId, room);
             return new RoomDTO(room);
+        }
+
+        private void InviteSelf(Room room) {
+            if (room.invitedIds.Contains(room.hostId)) {
+                throw new InvitedYourselfException("Can't invite yourself to a room");
+            }
         }
     }
 }

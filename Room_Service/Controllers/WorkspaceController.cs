@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Room_Service.Contracts;
 using Room_Service.DTO;
 using Room_Service.Entities;
+using Room_Service.Services.Services;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,62 +18,52 @@ namespace Room_Service.Controllers
     public class WorkspaceController : Controller
     {
         private readonly IWorkspaceService _workspaceService;
+        private readonly ILogger<RoomController> _log;
 
-        public WorkspaceController(IWorkspaceService workspaceService)
+        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log)
         {
             _workspaceService = workspaceService;
+            _log = log;
         }
 
-        //[Route("rooms/{userid}")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<WorkspaceDTO>> GetUserRooms(string userid)
-        //{
-        //    var result = await _roomService.GetUserRooms(userid);
-        //    if (result.rooms == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(result);
-        //}
-
-        //[Route("room/{roomid}")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<RoomDTO>> GetRoomByID(string roomid)
-        //{
-        //    var result = await _roomService.GetRoomByID(roomid);
-        //    if (result.rooms == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(result);
-        //}
-
-        //[HttpPut]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<RoomDTO>> UpdateRoom([FromBody] Room product)
-        //{
-        //    return Ok();
-        //}
-
-        //[HttpDelete]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<Workspace>> DeleteRoom([FromBody] Room product)
-        //{
-        //    return Ok();
-        //}
 
         [HttpPost]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<WorkspaceDTO>> CreateWorkspace([FromBody] Workspace workspace)
         {
+            try {
             var result = await _workspaceService.CreateWorkspace(workspace);
             if (result == null)
             {
                 return NotFound();
             }
             return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with creating workspace");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<WorkspaceDTO>> GetUserRooms()
+        {
+            try
+            {
+                var result = await _workspaceService.GetWorkspaces();
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with retrieving workspaces");
+                return BadRequest();
+            }
         }
     }
 }

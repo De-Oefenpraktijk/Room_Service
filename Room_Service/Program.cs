@@ -3,6 +3,7 @@ using Room_Service.Contracts;
 using Room_Service.Data;
 using Room_Service.Entities;
 using Room_Service.Services.Services;
+using Seq.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddSeq();
+});
 
 var app = builder.Build();
 

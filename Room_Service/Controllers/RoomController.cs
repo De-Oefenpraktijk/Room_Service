@@ -20,10 +20,12 @@ namespace Room_Service.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
+        private readonly ILogger<RoomController> _log;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, ILogger<RoomController> log)
         {
             _roomService = roomService;
+            _log = log;
         }
 
         [Route("{workspaceid}/{userid}")]
@@ -31,11 +33,18 @@ namespace Room_Service.Controllers
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<WorkspaceDTO>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
         {
+            try {
             var result = await _roomService.GetUserRooms(userid, workspaceid);
             if (result == null) {
                 return NotFound();
             }
             return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with room retrieval by user and workspace");
+                return BadRequest();
+            }
         }
 
         [Route("room/{roomid}")]
@@ -43,38 +52,43 @@ namespace Room_Service.Controllers
         [ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<RoomDTO>> GetRoomByID(string roomid)
         {
-            var result = await _roomService.GetRoomByID(roomid);
-            if (result.rooms == null)
+            try
             {
-                return NotFound();
+                var result = await _roomService.GetRoomByID(roomid);
+                if (result.rooms == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
             }
-            return Ok(result);
-        }
-
-        [HttpPut]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<RoomDTO>> UpdateRoom([FromBody] Room product)
-        {
-            return Ok();
-        }
-
-        [HttpDelete]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> DeleteRoom([FromBody] Room product)
-        {
-            return Ok();
+            catch (InvitedYourselfException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with room retrieval by id");
+                return BadRequest();
+            }
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Workspace>> CreateRoom([FromBody] Room room)
         {
+            try {
             var result = await _roomService.CreateRoom(room);
             if (result == null)
             {
                 return NotFound();
             }
             return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem creating room");
+                return BadRequest();
+            }
         }
     }
 }
