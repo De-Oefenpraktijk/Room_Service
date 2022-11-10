@@ -7,7 +7,7 @@ namespace Room_Service.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? roomId { get; set; } = null!;
+        public ObjectId roomId { get; set; }
 
         public string hostId { get; set; }
 
@@ -15,6 +15,6 @@ namespace Room_Service.Entities
 
         public DateTime scheduledDate { get; set; }
 
-        public string workspaceId { get; set; }
+        public ObjectId workspaceId { get; set; }
     }
 }

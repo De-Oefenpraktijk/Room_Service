@@ -9,7 +9,7 @@ namespace Room_Service.DTO
 {
     public class WorkspaceDTO
     {
-        public string? Id { get; set; }
+        public ObjectId Id { get; set; }
         [Required]
         public string Name { get; set; }
 
