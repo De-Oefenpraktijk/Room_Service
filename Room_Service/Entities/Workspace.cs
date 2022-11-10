@@ -13,11 +13,10 @@ namespace Room_Service.Entities
         public string name { get; set; } = null!;
         public string? imageFile { get; set; }
 
-        [BsonElement("items")]
+        [BsonElement("files")]
         public List<Files>? files { get; set; }
 
-        [BsonIgnoreIfDefault]
-        [BsonElement("items")]
+        [BsonIgnore]
         public List<Room>? rooms { get; set; }
     }
 }

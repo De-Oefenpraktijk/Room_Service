@@ -27,7 +27,7 @@ namespace Room_Service.Services.Services
 
         public async Task<string> DeleteWorkspace(string workspaceid)
         {
-            await _context.Workspaces.DeleteOneAsync(x => x.Id == workspaceid);
+            await _context.Workspaces.DeleteOneAsync(x => x.id == workspaceid);
             return workspaceid;
         }
 
@@ -38,13 +38,13 @@ namespace Room_Service.Services.Services
             {
                 throw new Exception("workspace does not exist");
             }
-            return new Workspace
+            return workspace;
         }
 
         public async Task<IEnumerable<Workspace>> GetWorkspaces()
         {
             var result = await _context.Workspaces.Find(_ => true).ToListAsync();
-            return result
+            return result;
         }
 
         public async Task<Workspace> UpdateWorkspace(WorkspaceDTO workspaceDTO)

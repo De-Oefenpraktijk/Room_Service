@@ -12,12 +12,11 @@ namespace Room_Service.Profiles
             CreateMap<FileDTO, Files>()
                .ForMember(
                    dest => dest.fileName,
-                   opt => opt.MapFrom(src => $"{src.FileName}")
+                   opt => opt.MapFrom(src => src.FileName)
                ).ForMember(
                    dest => dest.fileUrl,
-                   opt => opt.MapFrom(src => $"{src.FileUrl}")
+                   opt => opt.MapFrom(src => src.FileUrl)
                );
-
         }
 	}
 }

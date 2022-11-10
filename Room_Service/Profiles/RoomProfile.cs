@@ -13,17 +13,17 @@ namespace Room_Service.Profiles
             CreateMap<RoomDTO, Room>()
                .ForMember(
                    dest => dest.hostId,
-                   opt => opt.MapFrom(src => $"{src.HostUser}")
+                   opt => opt.MapFrom(src => src.HostUser)
                )
                .ForMember(
                    dest => dest.invitedIds,
-                   opt => opt.MapFrom(src => $"{src.InvitedUsers}")
+                   opt => opt.MapFrom(src => src.InvitedUsers)
                ).ForMember(
                    dest => dest.scheduledDate,
-                   opt => opt.MapFrom(src => $"{src.ScheduledDate}")
+                   opt => opt.MapFrom(src => src.ScheduledDate)
                ).ForMember(
                    dest => dest.workspaceId,
-                   opt => opt.MapFrom(src => $"{src.WorkspaceId}")
+                   opt => opt.MapFrom(src => src.WorkspaceId)
                );
         }
 	}
