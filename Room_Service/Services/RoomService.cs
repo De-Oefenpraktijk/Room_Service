@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoMapper;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Room_Service.Contracts;
 using Room_Service.Data;
@@ -30,13 +29,13 @@ namespace Room_Service.Services.Services
             return room;
         }
 
-        public async Task<ObjectId> DeleteRoom(ObjectId roomid)
+        public async Task<string> DeleteRoom(string roomid)
         {
             await _context.Rooms.DeleteOneAsync(x => x.roomId == roomid);
             return roomid;
         }
 
-        public async Task<Workspace> GetRoomByID(ObjectId roomid)
+        public async Task<Workspace> GetRoomByID(string roomid)
         {
             Room room = await _context.Rooms.Find(x => x.roomId == roomid).FirstOrDefaultAsync();
             Workspace workspace = await _workspaceService.GetWorkspaceByID(room.workspaceId);
@@ -45,7 +44,7 @@ namespace Room_Service.Services.Services
             return workspace;
         }
 
-        public async Task<Workspace> GetUserRooms(string userid, ObjectId workspaceid)
+        public async Task<Workspace> GetUserRooms(string userid, string workspaceid)
         {
             List<Room> rooms = await _context.Rooms.Find(x => (x.hostId == userid || x.invitedIds.Contains(userid))
             && (x.scheduledDate > DateTime.Now.Date && x.scheduledDate < DateTime.Now.Date.AddDays(1))

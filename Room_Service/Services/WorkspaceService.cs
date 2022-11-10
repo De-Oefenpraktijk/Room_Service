@@ -1,6 +1,5 @@
 ﻿using System;
 using AutoMapper;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using Room_Service.Contracts;
 using Room_Service.Data;
@@ -26,13 +25,13 @@ namespace Room_Service.Services.Services
             return workspace;
         }
 
-        public async Task<ObjectId> DeleteWorkspace(ObjectId workspaceid)
+        public async Task<string> DeleteWorkspace(string workspaceid)
         {
             await _context.Workspaces.DeleteOneAsync(x => x.id == workspaceid);
             return workspaceid;
         }
 
-        public async Task<Workspace> GetWorkspaceByID(ObjectId workspaceid)
+        public async Task<Workspace> GetWorkspaceByID(string workspaceid)
         {
             var workspace = await _context.Workspaces.Find(x => x.id == workspaceid).FirstOrDefaultAsync();
             if (workspace == null)

@@ -8,7 +8,7 @@ namespace Room_Service.Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId id { get; set; }
+        public string? id { get; set; }
         [BsonRequired]
         public string name { get; set; } = null!;
         public string? imageFile { get; set; }

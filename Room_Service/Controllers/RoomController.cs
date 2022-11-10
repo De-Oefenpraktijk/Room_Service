@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using NuGet.Protocol.Core.Types;
 using Room_Service.Contracts;
 using Room_Service.Data;
@@ -33,7 +32,7 @@ namespace Room_Service.Controllers
         [Route("{workspaceid}/{userid}")]
         [HttpGet]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetUserRooms([FromRoute]string userid, [FromRoute] ObjectId workspaceid)
+        public async Task<ActionResult<Workspace>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
         {
             try {
             var result = await _roomService.GetUserRooms(userid, workspaceid);
@@ -52,7 +51,7 @@ namespace Room_Service.Controllers
         [Route("room/{roomid}")]
         [HttpGet]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetRoomByID(ObjectId roomid)
+        public async Task<ActionResult<Workspace>> GetRoomByID(string roomid)
         {
             try
             {
