@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using MongoDB.Driver;
 using Room_Service.Contracts;
 using Room_Service.Data;
@@ -11,17 +12,21 @@ namespace Room_Service.Services.Services
     {
         private readonly IDBContext _context;
         private readonly IWorkspaceService _workspaceService;
-        public RoomService(IDBContext context, IWorkspaceService workspaceService)
+        private readonly IMapper _mapper;
+
+        public RoomService(IDBContext context, IWorkspaceService workspaceService, IMapper mapper)
         {
             _context = context;
             _workspaceService = workspaceService;
+            _mapper = mapper;
         }
 
-        public async Task<RoomDTO> CreateRoom(Room room)
+        public async Task<Room> CreateRoom(RoomDTO roomDTO)
         {
-            
+            Room room = _mapper.Map<RoomDTO, Room>(roomDTO);
+            InviteSelf(room);
             await _context.Rooms.InsertOneAsync(room);
-            return new RoomDTO(room);
+            return room;
         }
 
         public async Task<string> DeleteRoom(string roomid)
@@ -30,31 +35,32 @@ namespace Room_Service.Services.Services
             return roomid;
         }
 
-        public async Task<WorkspaceDTO> GetRoomByID(string roomid)
+        public async Task<Workspace> GetRoomByID(string roomid)
         {
             Room room = await _context.Rooms.Find(x => x.roomId == roomid).FirstOrDefaultAsync();
-            WorkspaceDTO workspace = await _workspaceService.GetWorkspaceByID(room.workspaceId);
-            workspace.rooms = new List<RoomDTO>();
-            workspace.rooms.Add(new RoomDTO(room));
+            Workspace workspace = await _workspaceService.GetWorkspaceByID(room.workspaceId);
+            workspace.rooms = new List<Room>();
+            workspace.rooms.Add(room);
             return workspace;
         }
 
-        public async Task<WorkspaceDTO> GetUserRooms(string userid, string workspaceid)
+        public async Task<Workspace> GetUserRooms(string userid, string workspaceid)
         {
             List<Room> rooms = await _context.Rooms.Find(x => (x.hostId == userid || x.invitedIds.Contains(userid))
             && (x.scheduledDate > DateTime.Now.Date && x.scheduledDate < DateTime.Now.Date.AddDays(1))
             && x.workspaceId == workspaceid).ToListAsync();
 
-            WorkspaceDTO workspace = await _workspaceService.GetWorkspaceByID(workspaceid);
+            Workspace workspace = await _workspaceService.GetWorkspaceByID(workspaceid);
 
-            workspace.rooms = rooms.Select(x => new RoomDTO(x)).ToList();
+            workspace.rooms = rooms;
             return workspace;
         }
 
-        public async Task<RoomDTO> UpdateRoom(Room room)
+        public async Task<Room> UpdateRoom(RoomDTO roomDTO)
         {
+            Room room = _mapper.Map<RoomDTO, Room>(roomDTO);
             await _context.Rooms.ReplaceOneAsync(x => x.roomId == room.roomId, room);
-            return new RoomDTO(room);
+            return room;
         }
 
         private void InviteSelf(Room room) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
@@ -31,7 +32,7 @@ namespace Room_Service.Controllers
         [Route("{workspaceid}/{userid}")]
         [HttpGet]
         [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<WorkspaceDTO>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
+        public async Task<ActionResult<Workspace>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
         {
             try {
             var result = await _roomService.GetUserRooms(userid, workspaceid);
@@ -49,8 +50,8 @@ namespace Room_Service.Controllers
 
         [Route("room/{roomid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<RoomDTO>> GetRoomByID(string roomid)
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Workspace>> GetRoomByID(string roomid)
         {
             try
             {
@@ -61,10 +62,6 @@ namespace Room_Service.Controllers
                 }
                 return Ok(result);
             }
-            catch (InvitedYourselfException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
                 _log.LogInformation(ex, "Problem with room retrieval by id");
@@ -73,8 +70,8 @@ namespace Room_Service.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> CreateRoom([FromBody] Room room)
+        [ProducesResponseType(typeof(Room), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Room>> CreateRoom([FromBody] RoomDTO room)
         {
             try {
             var result = await _roomService.CreateRoom(room);
@@ -83,6 +80,10 @@ namespace Room_Service.Controllers
                 return NotFound();
             }
             return Ok(result);
+            }
+            catch (InvitedYourselfException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

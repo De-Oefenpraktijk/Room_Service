@@ -8,9 +8,13 @@ namespace Room_Service.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? roomId { get; set; } = null!;
-        public string hostId { get; set; } = null!;
-        public IEnumerable<string> invitedIds { get; set; } = null!;
+
+        public string hostId { get; set; }
+
+        public IEnumerable<string> invitedIds { get; set; }
+
         public DateTime scheduledDate { get; set; }
-        public string workspaceId { get; set; } = null!;
+
+        public string workspaceId { get; set; }
     }
 }
