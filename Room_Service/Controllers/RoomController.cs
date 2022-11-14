@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Cosmos;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Protocol.Core.Types;
 using Room_Service.Contracts;
-using Room_Service.Data;
 using Room_Service.DTO;
 using Room_Service.Entities;
 
@@ -22,24 +13,27 @@ namespace Room_Service.Controllers
     {
         private readonly IRoomService _roomService;
         private readonly ILogger<RoomController> _log;
+        private readonly IMapper _mapper;
 
-        public RoomController(IRoomService roomService, ILogger<RoomController> log)
+        public RoomController(IRoomService roomService, ILogger<RoomController> log, IMapper mapper)
         {
             _roomService = roomService;
             _log = log;
+            _mapper = mapper;
         }
 
         [Route("{workspaceid}/{userid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
+        [ProducesResponseType(typeof(WorkspaceDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<WorkspaceDTO>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
         {
             try {
             var result = await _roomService.GetUserRooms(userid, workspaceid);
-            if (result == null) {
+                if (result != null) {
+                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
+                    return Ok(resultDTO);
+                }
                 return NotFound();
-            }
-            return Ok(result);
             }
             catch (Exception ex)
             {
@@ -50,17 +44,18 @@ namespace Room_Service.Controllers
 
         [Route("room/{roomid}")]
         [HttpGet]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetRoomByID(string roomid)
+        [ProducesResponseType(typeof(WorkspaceDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<WorkspaceDTO>> GetRoomByID(string roomid)
         {
             try
             {
                 var result = await _roomService.GetRoomByID(roomid);
-                if (result.rooms == null)
+                if (result != null)
                 {
-                    return NotFound();
+                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
+                    return Ok(resultDTO);
                 }
-                return Ok(result);
+                return NotFound();
             }
             catch (Exception ex)
             {
@@ -70,16 +65,17 @@ namespace Room_Service.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(Room), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Room>> CreateRoom([FromBody] RoomDTO room)
+        [ProducesResponseType(typeof(RoomDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<RoomDTO>> CreateRoom([FromBody] RoomDTO room)
         {
             try {
             var result = await _roomService.CreateRoom(room);
-            if (result == null)
-            {
+                if (result != null)
+                {
+                    var resultDTO = _mapper.Map<Room, RoomDTO>(result);
+                    return Ok(resultDTO);
+                }
                 return NotFound();
-            }
-            return Ok(result);
             }
             catch (InvitedYourselfException ex)
             {

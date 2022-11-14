@@ -1,8 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Room_Service.DTO;
+﻿using Room_Service.DTO;
 using Room_Service.Entities;
-using System.Net;
 
 namespace Room_Service.Contracts
 {

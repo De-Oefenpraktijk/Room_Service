@@ -10,19 +10,7 @@ namespace Room_Service.Profiles
 		public WorkspaceProfile()
 		{
             CreateMap<WorkspaceDTO, Workspace>()
-               .ForMember(
-                   dest => dest.id,
-                   opt => opt.MapFrom(src => src.Id)
-               ).ForMember(
-                   dest => dest.name,
-                   opt => opt.MapFrom(src => src.Name)
-               ).ForMember(
-                   dest => dest.imageFile,
-                   opt => opt.MapFrom(src => src.ImageFile)
-               ).ForMember(
-                   dest => dest.files,
-                   opt => opt.MapFrom(src => src.Files)
-               );
+               .ReverseMap();
         }
 	}
 }

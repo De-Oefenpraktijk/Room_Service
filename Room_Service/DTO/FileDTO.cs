@@ -7,9 +7,9 @@ namespace Room_Service.DTO
     public class FileDTO
     {
         [Required]
-        public string FileUrl { get; set; } = null!;
+        public string fileUrl { get; set; } = null!;
         [Required]
-        public string FileName { get; set; } = null!;
+        public string fileName { get; set; } = null!;
     }
 }
 

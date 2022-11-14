@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Room_Service.Contracts;
 using Room_Service.DTO;
 using Room_Service.Entities;
-using Room_Service.Services.Services;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Room_Service.Controllers
 {
@@ -19,25 +13,28 @@ namespace Room_Service.Controllers
     {
         private readonly IWorkspaceService _workspaceService;
         private readonly ILogger<RoomController> _log;
+        private readonly IMapper _mapper;
 
-        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log)
+        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log, IMapper mapper)
         {
             _workspaceService = workspaceService;
             _log = log;
+            _mapper = mapper;
         }
 
 
         [HttpPost]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(WorkspaceDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<Workspace>> CreateWorkspace([FromBody] WorkspaceDTO workspace)
         {
             try {
             var result = await _workspaceService.CreateWorkspace(workspace);
-            if (result == null)
-            {
+                if (result != null)
+                {
+                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
+                    return Ok(resultDTO);
+                }
                 return NotFound();
-            }
-            return Ok(result);
             }
             catch (Exception ex)
             {
@@ -53,11 +50,12 @@ namespace Room_Service.Controllers
             try
             {
                 var result = await _workspaceService.GetWorkspaces();
-                if (result == null)
+                if (result != null)
                 {
-                    return NotFound();
+                    var resultDTO = _mapper.Map<IEnumerable<Workspace>, IEnumerable<WorkspaceDTO>>(result);
+                    return Ok(resultDTO);
                 }
-                return Ok(result);
+                return NotFound();
             }
             catch (Exception ex)
             {

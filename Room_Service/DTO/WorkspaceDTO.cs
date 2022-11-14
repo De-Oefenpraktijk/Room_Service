@@ -9,13 +9,15 @@ namespace Room_Service.DTO
 {
     public class WorkspaceDTO
     {
-        public string? Id { get; set; }
+        public string? id { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string name { get; set; }
 
-        public string? ImageFile { get; set; }
+        public string? mageFile { get; set; }
 
-        public List<FileDTO>? Files { get; set; }
+        public List<FileDTO>? files { get; set; }
+
+        public List<Room>? fooms { get; set; }
     }
 }
 

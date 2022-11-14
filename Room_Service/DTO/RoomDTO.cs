@@ -6,15 +6,15 @@ namespace Room_Service.DTO
     public class RoomDTO
     {
         [Required]
-        public string HostUser { get; set; }
+        public string hostUser { get; set; }
 
         [Required]
-        public IEnumerable<string> InvitedUsers { get; set; }
+        public IEnumerable<string> invitedUsers { get; set; }
 
         [Required]
-        public DateTime ScheduledDate { get; set; }
+        public DateTime scheduledDate { get; set; }
 
         [Required]
-        public string WorkspaceId { get; set; }
+        public string workspaceId { get; set; }
     }
 }
