@@ -1,22 +1,19 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using Room_Service.DTO;
+﻿using Room_Service.DTO;
 using Room_Service.Entities;
-using System.Net;
 
 namespace Room_Service.Contracts
 {
     public interface IRoomService
     {
-        public Task<WorkspaceDTO> GetUserRooms(string userid, string workspaceid);
+        public Task<Workspace> GetUserRooms(string userid, string workspaceid);
 
-        public Task<RoomDTO> UpdateRoom(Room room);
+        public Task<Room> UpdateRoom(RoomDTO roomDTO);
 
         public Task<string> DeleteRoom(string roomid);
 
-        public Task<RoomDTO> CreateRoom(Room room);
+        public Task<Room> CreateRoom(RoomDTO roomDTO);
 
-        public Task<WorkspaceDTO> GetRoomByID(string roomid);
+        public Task<Workspace> GetRoomByID(string roomid);
     }
 }
 

@@ -10,12 +10,6 @@ namespace Room_Service.DTO
         public string fileUrl { get; set; } = null!;
         [Required]
         public string fileName { get; set; } = null!;
-
-        public FileDTO(Files file)
-        {
-            fileUrl = file.fileUrl;
-            fileName = file.fileName;
-        }
     }
 }
 

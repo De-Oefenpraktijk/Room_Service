@@ -1,12 +1,9 @@
 version: 2.1
 
-jobs:
-  publish:
-    docker:
-      - image: cimg/node:17.2.0
-    steps:
-      - run: echo "hello world"
+orbs:
+  azure-acr: circleci/azure-acr@0.2.1
 
+jobs:
   test:
     docker:
       - image: mcr.microsoft.com/dotnet/sdk:6.0
@@ -43,10 +40,10 @@ workflows:
   workflow: 
     jobs:
       - test
-      - publish:
-          requires: 
-            - test
-          filters:
-            branches:
-              only: 
-                - main
+      - azure-acr/build-and-push-image:
+            login-server-name: oefenpraktijkregistry.azurecr.io
+            registry-name: OefenpraktijkRegistry
+            repo: RoomService
+            filters:
+              branches:
+                only: main # Only deploys when the commit is on the Main branch

@@ -13,8 +13,8 @@ namespace Room_Service.Data
             var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
             var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
-            Workspaces = database.GetCollection<Workspace>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
-            Rooms = database.GetCollection<Room>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
+            Workspaces = database.GetCollection<Workspace>(configuration.GetValue<string>("DatabaseSettings:WorkspaceCollectionName"));
+            Rooms = database.GetCollection<Room>(configuration.GetValue<string>("DatabaseSettings:RoomCollectionName"));
         }
 
         public IMongoCollection<Workspace> Workspaces { get; }

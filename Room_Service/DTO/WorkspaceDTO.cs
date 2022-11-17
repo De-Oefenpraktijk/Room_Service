@@ -9,24 +9,15 @@ namespace Room_Service.DTO
 {
     public class WorkspaceDTO
     {
+        public string? id { get; set; }
         [Required]
-        public string Id { get; set; } = null!;
-        [Required]
-        public string Name { get; set; } = null!;
-        [Required]
-        public string? ImageFile { get; set; }
+        public string name { get; set; }
 
-        public List<RoomDTO>? rooms { get; set; }
+        public string? mageFile { get; set; }
 
         public List<FileDTO>? files { get; set; }
 
-        public WorkspaceDTO(Workspace workspace)
-        {
-            Id = workspace.Id!;
-            Name = workspace.Name;
-            ImageFile = workspace.ImageFile;
-            files = workspace.files != null ? workspace.files.Select(x => new FileDTO(x)).ToList() : files = null;
-        }
+        public List<Room>? fooms { get; set; }
     }
 }
 

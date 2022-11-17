@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Room_Service.Contracts;
 using Room_Service.DTO;
 using Room_Service.Entities;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Room_Service.Controllers
 {
@@ -17,62 +12,56 @@ namespace Room_Service.Controllers
     public class WorkspaceController : Controller
     {
         private readonly IWorkspaceService _workspaceService;
+        private readonly ILogger<RoomController> _log;
+        private readonly IMapper _mapper;
 
-        public WorkspaceController(IWorkspaceService workspaceService)
+        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log, IMapper mapper)
         {
             _workspaceService = workspaceService;
+            _log = log;
+            _mapper = mapper;
         }
 
-        //[Route("rooms/{userid}")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<WorkspaceDTO>> GetUserRooms(string userid)
-        //{
-        //    var result = await _roomService.GetUserRooms(userid);
-        //    if (result.rooms == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(result);
-        //}
-
-        //[Route("room/{roomid}")]
-        //[HttpGet]
-        //[ProducesResponseType(typeof(IEnumerable<Workspace>), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<RoomDTO>> GetRoomByID(string roomid)
-        //{
-        //    var result = await _roomService.GetRoomByID(roomid);
-        //    if (result.rooms == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(result);
-        //}
-
-        //[HttpPut]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<RoomDTO>> UpdateRoom([FromBody] Room product)
-        //{
-        //    return Ok();
-        //}
-
-        //[HttpDelete]
-        //[ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        //public async Task<ActionResult<Workspace>> DeleteRoom([FromBody] Room product)
-        //{
-        //    return Ok();
-        //}
 
         [HttpPost]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<WorkspaceDTO>> CreateWorkspace([FromBody] Workspace workspace)
+        [ProducesResponseType(typeof(WorkspaceDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Workspace>> CreateWorkspace([FromBody] WorkspaceDTO workspace)
         {
+            try {
             var result = await _workspaceService.CreateWorkspace(workspace);
-            if (result == null)
-            {
+                if (result != null)
+                {
+                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
+                    return Ok(resultDTO);
+                }
                 return NotFound();
             }
-            return Ok(result);
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with creating workspace");
+                return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<Workspace>> GetUserRooms()
+        {
+            try
+            {
+                var result = await _workspaceService.GetWorkspaces();
+                if (result != null)
+                {
+                    var resultDTO = _mapper.Map<IEnumerable<Workspace>, IEnumerable<WorkspaceDTO>>(result);
+                    return Ok(resultDTO);
+                }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem with retrieving workspaces");
+                return BadRequest();
+            }
         }
     }
 }
