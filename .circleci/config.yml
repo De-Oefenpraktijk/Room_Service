@@ -43,7 +43,7 @@ workflows:
       - azure-acr/build-and-push-image:
             login-server-name: oefenpraktijkregistry.azurecr.io
             registry-name: OefenpraktijkRegistry
-            repo: RoomService
+            repo: roomservice
             requires: 
               - test
             filters:
