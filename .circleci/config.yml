@@ -41,10 +41,11 @@ workflows:
     jobs:
       - test
       - azure-acr/build-and-push-image:
-            context: Azure 
             login-server-name: oefenpraktijkregistry.azurecr.io
             registry-name: OefenpraktijkRegistry
             repo: RoomService
+            requires: 
+              - test
             filters:
               branches:
                 only: main # Only deploys when the commit is on the Main branch
