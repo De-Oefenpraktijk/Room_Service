@@ -13,13 +13,11 @@ namespace Room_Service.Controllers
     {
         private readonly IRoomService _roomService;
         private readonly ILogger<RoomController> _log;
-        private readonly IMapper _mapper;
 
-        public RoomController(IRoomService roomService, ILogger<RoomController> log, IMapper mapper)
+        public RoomController(IRoomService roomService, ILogger<RoomController> log)
         {
             _roomService = roomService;
             _log = log;
-            _mapper = mapper;
         }
 
         [Route("{workspaceid}/{userid}")]
@@ -30,8 +28,7 @@ namespace Room_Service.Controllers
             try {
             var result = await _roomService.GetUserRooms(userid, workspaceid);
                 if (result != null) {
-                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
-                    return Ok(resultDTO);
+                    return Ok(result);
                 }
                 return NotFound();
             }
@@ -52,8 +49,7 @@ namespace Room_Service.Controllers
                 var result = await _roomService.GetRoomByID(roomid);
                 if (result != null)
                 {
-                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
-                    return Ok(resultDTO);
+                    return Ok(result);
                 }
                 return NotFound();
             }
@@ -72,8 +68,7 @@ namespace Room_Service.Controllers
             var result = await _roomService.CreateRoom(room);
                 if (result != null)
                 {
-                    var resultDTO = _mapper.Map<Room, RoomDTO>(result);
-                    return Ok(resultDTO);
+                    return Ok(result);
                 }
                 return NotFound();
             }

@@ -13,13 +13,11 @@ namespace Room_Service.Controllers
     {
         private readonly IWorkspaceService _workspaceService;
         private readonly ILogger<RoomController> _log;
-        private readonly IMapper _mapper;
 
-        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log, IMapper mapper)
+        public WorkspaceController(IWorkspaceService workspaceService, ILogger<RoomController> log)
         {
             _workspaceService = workspaceService;
             _log = log;
-            _mapper = mapper;
         }
 
 
@@ -31,8 +29,7 @@ namespace Room_Service.Controllers
             var result = await _workspaceService.CreateWorkspace(workspace);
                 if (result != null)
                 {
-                    var resultDTO = _mapper.Map<Workspace, WorkspaceDTO>(result);
-                    return Ok(resultDTO);
+                    return Ok(result);
                 }
                 return NotFound();
             }
@@ -52,8 +49,7 @@ namespace Room_Service.Controllers
                 var result = await _workspaceService.GetWorkspaces();
                 if (result != null)
                 {
-                    var resultDTO = _mapper.Map<IEnumerable<Workspace>, IEnumerable<WorkspaceDTO>>(result);
-                    return Ok(resultDTO);
+                    return Ok(result);
                 }
                 return NotFound();
             }

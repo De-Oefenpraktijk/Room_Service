@@ -7,15 +7,15 @@ namespace Room_Service.Contracts
 {
     public interface IWorkspaceService
     {
-        public Task<IEnumerable<Workspace>> GetWorkspaces();
+        public Task<IEnumerable<WorkspaceDTO>> GetWorkspaces();
 
-        public Task<Workspace> UpdateWorkspace(WorkspaceDTO workspaceDTO);
+        public Task<WorkspaceDTO> UpdateWorkspace(WorkspaceDTO workspaceDTO);
 
         public Task<string> DeleteWorkspace(string workspaceid);
 
-        public Task<Workspace> CreateWorkspace(WorkspaceDTO workspaceDTO);
+        public Task<WorkspaceDTO> CreateWorkspace(WorkspaceDTO workspaceDTO);
 
-        public Task<Workspace> GetWorkspaceByID(string workspaceid);
+        public Task<WorkspaceDTO> GetWorkspaceByID(string workspaceid);
     }
 }
 

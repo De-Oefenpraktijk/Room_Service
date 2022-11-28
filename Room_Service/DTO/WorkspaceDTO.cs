@@ -13,11 +13,11 @@ namespace Room_Service.DTO
         [Required]
         public string name { get; set; }
 
-        public string? mageFile { get; set; }
+        public string? imageFile { get; set; }
 
         public List<FileDTO>? files { get; set; }
 
-        public List<Room>? fooms { get; set; }
+        public List<RoomDTO>? rooms { get; set; }
     }
 }
 

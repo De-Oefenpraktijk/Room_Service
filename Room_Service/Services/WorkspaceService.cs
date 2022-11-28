@@ -17,11 +17,11 @@ namespace Room_Service.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<Workspace> CreateWorkspace(WorkspaceDTO workspaceDTO)
+        public async Task<WorkspaceDTO> CreateWorkspace(WorkspaceDTO workspaceDTO)
         {
             Workspace workspace = _mapper.Map<WorkspaceDTO, Workspace>(workspaceDTO);
             await _context.Workspaces.InsertOneAsync(workspace);
-            return workspace;
+            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
         }
 
         public async Task<string> DeleteWorkspace(string workspaceid)
@@ -30,27 +30,27 @@ namespace Room_Service.Services.Services
             return workspaceid;
         }
 
-        public async Task<Workspace> GetWorkspaceByID(string workspaceid)
+        public async Task<WorkspaceDTO> GetWorkspaceByID(string workspaceid)
         {
             var workspace = await _context.Workspaces.Find(x => x.id == workspaceid).FirstOrDefaultAsync();
             if (workspace == null)
             {
                 throw new Exception("workspace does not exist");
             }
-            return workspace;
+            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
         }
 
-        public async Task<IEnumerable<Workspace>> GetWorkspaces()
+        public async Task<IEnumerable<WorkspaceDTO>> GetWorkspaces()
         {
             var result = await _context.Workspaces.Find(_ => true).ToListAsync();
-            return result;
+            return _mapper.Map<IEnumerable<Workspace>, IEnumerable<WorkspaceDTO>>(result);
         }
 
-        public async Task<Workspace> UpdateWorkspace(WorkspaceDTO workspaceDTO)
+        public async Task<WorkspaceDTO> UpdateWorkspace(WorkspaceDTO workspaceDTO)
         {
             Workspace workspace = _mapper.Map<WorkspaceDTO, Workspace>(workspaceDTO);
             await _context.Workspaces.ReplaceOneAsync(x => x.id == workspace.id, workspace);
-            return workspace;
+            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
         }
     }
 }

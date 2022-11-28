@@ -1,9 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using Room_Service.Contracts;
 using Room_Service.Data;
 using Room_Service.Entities;
 using Room_Service.Services.Services;
-using Seq.Extensions.Logging;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
