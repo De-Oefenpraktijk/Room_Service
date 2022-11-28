@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Room_Service.Contracts;
 using Room_Service.DTO;
@@ -7,6 +8,7 @@ using Room_Service.Entities;
 
 namespace Room_Service.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class WorkspaceController : Controller
