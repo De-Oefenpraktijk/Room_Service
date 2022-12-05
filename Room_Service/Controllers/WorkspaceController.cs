@@ -8,7 +8,6 @@ using Room_Service.Entities;
 
 namespace Room_Service.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class WorkspaceController : Controller
