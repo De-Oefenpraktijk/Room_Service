@@ -37,7 +37,7 @@ namespace Room_Service.Controllers
             catch (Exception ex)
             {
                 _log.LogInformation(ex, "Problem with room retrieval by user and workspace");
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -58,7 +58,7 @@ namespace Room_Service.Controllers
             catch (Exception ex)
             {
                 _log.LogInformation(ex, "Problem with room retrieval by id");
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Room_Service.Controllers
             catch (Exception ex)
             {
                 _log.LogInformation(ex, "Problem creating room");
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
     }
