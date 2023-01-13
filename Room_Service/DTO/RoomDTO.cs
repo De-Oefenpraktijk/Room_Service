@@ -5,6 +5,8 @@ namespace Room_Service.DTO
 {
     public class RoomDTO
     {
+        public string? roomId { get; set; }
+
         [Required]
         public string hostId { get; set; }
 
