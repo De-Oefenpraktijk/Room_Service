@@ -8,6 +8,9 @@ namespace Room_Service.DTO
         public string? roomId { get; set; }
 
         [Required]
+        public string roomName { get; set; }
+
+        [Required]
         public string hostId { get; set; }
 
         [Required]
