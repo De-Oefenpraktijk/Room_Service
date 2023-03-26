@@ -23,11 +23,11 @@ namespace Room_Service.Controllers
 
 
         [HttpPost]
-        [ProducesResponseType(typeof(WorkspaceDTO), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> CreateWorkspace([FromBody] WorkspaceDTO workspace)
+        [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromBody] InputWorkspaceDTO workspace)
         {
             try {
-            var result = await _workspaceService.CreateWorkspace(workspace);
+                var result = await _workspaceService.CreateWorkspace(workspace);
                 if (result != null)
                 {
                     return Ok(result);
@@ -42,8 +42,8 @@ namespace Room_Service.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(Workspace), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<Workspace>> GetUserRooms()
+        [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<OutputWorkspaceDTO>> GetAllWorkspaces()
         {
             try
             {
