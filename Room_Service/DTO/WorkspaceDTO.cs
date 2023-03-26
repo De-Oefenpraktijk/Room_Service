@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Room_Service.DTO
 {
-    public class OutputWorkspaceDTO
+    public class WorkspaceDTO
     {
         public string? id { get; set; }
         [Required]
@@ -17,7 +17,7 @@ namespace Room_Service.DTO
 
         public List<FileDTO>? files { get; set; }
 
-        public List<OutputRoomDTO>? rooms { get; set; }
+        //public List<RoomDTO>? rooms { get; set; }
     }
 }
 

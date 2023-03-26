@@ -11,7 +11,7 @@ namespace Room_Service.Entities
         public string? id { get; set; }
         [BsonRequired]
         public string name { get; set; } = null!;
-        public string? imageFile { get; set; }
+        public IFormFile? imageFile { get; set; }
 
         [BsonElement("files")]
         public List<Files>? files { get; set; }
