@@ -29,6 +29,9 @@
     <PackageReference Include="Seq.Extensions.Logging" Version="6.1.0" />
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Azure.Identity" Version="1.8.2" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.15.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,10 +43,12 @@
     <None Remove="AutoMapper" />
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Profiles\" />
+    <None Remove="Authorization\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contracts\" />
     <Folder Include="Services\" />
     <Folder Include="Profiles\" />
+    <Folder Include="Authorization\" />
   </ItemGroup>
 </Project>

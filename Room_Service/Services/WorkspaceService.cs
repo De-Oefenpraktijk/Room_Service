@@ -19,7 +19,9 @@ namespace Room_Service.Services.Services
 
         public async Task<OutputWorkspaceDTO> CreateWorkspace(InputWorkspaceDTO workspaceDTO)
         {
+            // assign Files imageFile
             Workspace workspace = _mapper.Map<InputWorkspaceDTO, Workspace>(workspaceDTO);
+
             await _context.Workspaces.InsertOneAsync(workspace);
             return _mapper.Map<Workspace, OutputWorkspaceDTO>(workspace);
         }

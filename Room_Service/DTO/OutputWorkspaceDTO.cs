@@ -13,7 +13,7 @@ namespace Room_Service.DTO
         [Required]
         public string name { get; set; }
 
-        public IFormFile? imageFile { get; set; }
+        public Files? imageFile { get; set; }
 
         public List<FileDTO>? files { get; set; }
 

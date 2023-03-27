@@ -9,9 +9,8 @@ namespace Room_Service.Entities
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? id { get; set; }
-        [BsonRequired]
-        public string name { get; set; } = null!;
-        public IFormFile? imageFile { get; set; }
+
+        public Files? imageFile { get; set; }
 
         [BsonElement("files")]
         public List<Files>? files { get; set; }

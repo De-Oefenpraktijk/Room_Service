@@ -2,7 +2,7 @@
 {
     public class Files
     {
-        public string fileUrl { get; set; } = null!;
-        public string fileName { get; set; } = null!;
+        public string? fileUrl { get; set; }
+        public string? fileName { get; set; }
     }
 }
