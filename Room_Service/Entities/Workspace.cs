@@ -10,6 +10,8 @@ namespace Room_Service.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string? id { get; set; }
 
+        public string name { get; set; }
+
         public Files? imageFile { get; set; }
 
         [BsonElement("files")]

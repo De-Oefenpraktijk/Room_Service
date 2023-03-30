@@ -6,6 +6,7 @@ using Azure.Storage.Blobs;
 using System.Threading;
 using Azure.Storage;
 using Azure.Storage.Sas;
+using SharpCompress.Common;
 
 namespace Room_Service.Controllers
 {
@@ -24,10 +25,6 @@ namespace Room_Service.Controllers
             _log = log;
         }
 
-
-
-
-
         [HttpPost]
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromForm] InputWorkspaceDTO workspace)
@@ -45,19 +42,12 @@ namespace Room_Service.Controllers
                 string blobStorageContainerName = "workspace-images";
                 BlobContainerClient container = new BlobContainerClient(blobStorageConnnectionString, blobStorageContainerName);
 
-                //make (or get) temporary
-                // BlobClient blob = container.GetBlobClient("temp");
-                // Generate unique image name
                 BlobClient blob;
                 FileStream stream;
                 if (workspace.inputImageFile == null)
                 {
-                    //set default
                     workspace.imageName = "test";
                     blob = container.GetBlobClient(workspace.imageName);
-
-
-                    // skip upload
 
                     return NotFound();
                 }
@@ -81,15 +71,13 @@ namespace Room_Service.Controllers
                 BlobContainerClient blobContainerClient =
                     new(blobContainerUri, storageSharedKeyCredential);
 
-                Uri relevantUri = GetServiceSasUriForContainer(blobContainerClient);
+                string relevantUri = blobContainerUri.ToString() + "/" + workspace.imageName;
 
-                workspace.imageUri = relevantUri.ToString();
                 workspace.imageFile = new FileDTO(workspace.imageName, workspace.imageUri);
 
-                //workspace.imageName = await SaveImage(workspace.imageFile);
-                OutputWorkspaceDTO result = await _workspaceService.CreateWorkspace(workspace);
+                    OutputWorkspaceDTO result = await _workspaceService.CreateWorkspace(workspace);
 
-                return NotFound();
+                return new ObjectResult(result); 
             }
             catch (Exception ex)
             {
@@ -123,8 +111,7 @@ namespace Room_Service.Controllers
         [NonAction]
         public async Task<string> SaveImage(IFormFile imageFile)
         {
-            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName).Take(10).ToArray()).Replace(' ', '-');
-            imageName = imageName + DateTime.Now.ToString("yymmssfff") + Path.GetExtension(imageFile.FileName);
+            string imageName = new String(Path.GetFileNameWithoutExtension(imageFile.FileName));
             using (FileStream fileStream = new FileStream(imageName, FileMode.Create))
             {
                 await imageFile.CopyToAsync(fileStream);
@@ -145,42 +132,7 @@ namespace Room_Service.Controllers
             fileStream.Close();
         }
 
-        private static Uri GetServiceSasUriForContainer(BlobContainerClient containerClient,
-                                          string storedPolicyName = null)
-        {
-            // Check whether this BlobContainerClient object has been authorized with Shared Key.
-            if (containerClient.CanGenerateSasUri)
-            {
-                // Create a SAS token that's valid for one hour.
-                BlobSasBuilder sasBuilder = new BlobSasBuilder()
-                {
-                    BlobContainerName = containerClient.Name,
-                    Resource = "c"
-                };
 
-                if (storedPolicyName == null)
-                {
-                    sasBuilder.ExpiresOn = DateTimeOffset.UtcNow.AddHours(1);
-                    sasBuilder.SetPermissions(BlobContainerSasPermissions.Read);
-                }
-                else
-                {
-                    sasBuilder.Identifier = storedPolicyName;
-                }
-
-                Uri sasUri = containerClient.GenerateSasUri(sasBuilder);
-                Console.WriteLine("SAS URI for blob container is: {0}", sasUri);
-                Console.WriteLine();
-
-                return sasUri;
-            }
-            else
-            {
-                Console.WriteLine(@"BlobContainerClient must be authorized with Shared Key 
-                          credentials to create a service SAS.");
-                return null;
-            }
-        }
     }
 }
 
