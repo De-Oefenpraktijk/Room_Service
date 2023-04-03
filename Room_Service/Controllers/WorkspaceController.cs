@@ -29,7 +29,7 @@ namespace Room_Service.Controllers
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromForm] InputWorkspaceDTO workspace)
         {
-             AzureData = new Room_Service.Data.AzureBlobStorage();
+            var AzureData = new Room_Service.Data.AzureBlobStorage();
 
             //get blob details
             const string AccountName = "oefenpraktijkstorageacc";
@@ -72,9 +72,9 @@ namespace Room_Service.Controllers
                 BlobContainerClient blobContainerClient =
                     new(blobContainerUri, storageSharedKeyCredential);
 
-                string relevantUri = blobContainerUri.ToString() + "/" + workspace.imageName;
+                string relevantUrl = blobContainerUri.ToString() + "/" + workspace.imageName;
 
-                workspace.imageFile = new FileDTO(workspace.imageName, workspace.imageUri);
+                workspace.imageFile = new FileDTO(workspace.imageName, relevantUrl);
 
                     OutputWorkspaceDTO result = await _workspaceService.CreateWorkspace(workspace);
 
