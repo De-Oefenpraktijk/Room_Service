@@ -9,8 +9,10 @@ namespace Room_Service.Profiles
 	{
 		public WorkspaceProfile()
 		{
-            CreateMap<WorkspaceDTO, Workspace>()
+            CreateMap<OutputWorkspaceDTO, Workspace>()
                .ReverseMap();
+			CreateMap<InputWorkspaceDTO, Workspace>()
+				.ReverseMap();
         }
 	}
 }

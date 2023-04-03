@@ -3,10 +3,8 @@ using Room_Service.Entities;
 
 namespace Room_Service.DTO
 {
-    public class RoomDTO
+    public class InputRoomDTO
     {
-        public string? roomId { get; set; }
-
         [Required]
         public string roomName { get; set; }
 

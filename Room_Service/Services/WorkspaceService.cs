@@ -17,40 +17,42 @@ namespace Room_Service.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<WorkspaceDTO> CreateWorkspace(WorkspaceDTO workspaceDTO)
+        public async Task<OutputWorkspaceDTO> CreateWorkspace(InputWorkspaceDTO workspaceDTO)
         {
-            Workspace workspace = _mapper.Map<WorkspaceDTO, Workspace>(workspaceDTO);
+            // assign Files imageFile
+            Workspace workspace = _mapper.Map<InputWorkspaceDTO, Workspace>(workspaceDTO);
+
             await _context.Workspaces.InsertOneAsync(workspace);
-            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
+            return _mapper.Map<Workspace, OutputWorkspaceDTO>(workspace);
         }
 
-        public async Task<string> DeleteWorkspace(string workspaceid)
+        public async Task<string> DeleteWorkspace(string workspaceId)
         {
-            await _context.Workspaces.DeleteOneAsync(x => x.id == workspaceid);
-            return workspaceid;
+            await _context.Workspaces.DeleteOneAsync(x => x.id == workspaceId);
+            return workspaceId;
         }
 
-        public async Task<WorkspaceDTO> GetWorkspaceByID(string workspaceid)
+        public async Task<OutputWorkspaceDTO> GetWorkspaceByID(string workspaceId)
         {
-            var workspace = await _context.Workspaces.Find(x => x.id == workspaceid).FirstOrDefaultAsync();
+            var workspace = await _context.Workspaces.Find(x => x.id == workspaceId).FirstOrDefaultAsync();
             if (workspace == null)
             {
                 throw new Exception("workspace does not exist");
             }
-            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
+            return _mapper.Map<Workspace, OutputWorkspaceDTO>(workspace);
         }
 
-        public async Task<IEnumerable<WorkspaceDTO>> GetWorkspaces()
+        public async Task<IEnumerable<OutputWorkspaceDTO>> GetWorkspaces()
         {
             var result = await _context.Workspaces.Find(_ => true).ToListAsync();
-            return _mapper.Map<IEnumerable<Workspace>, IEnumerable<WorkspaceDTO>>(result);
+            return _mapper.Map<IEnumerable<Workspace>, IEnumerable<OutputWorkspaceDTO>>(result);
         }
 
-        public async Task<WorkspaceDTO> UpdateWorkspace(WorkspaceDTO workspaceDTO)
+        public async Task<OutputWorkspaceDTO> UpdateWorkspace(InputWorkspaceDTO workspaceDTO)
         {
-            Workspace workspace = _mapper.Map<WorkspaceDTO, Workspace>(workspaceDTO);
+            Workspace workspace = _mapper.Map<InputWorkspaceDTO, Workspace>(workspaceDTO);
             await _context.Workspaces.ReplaceOneAsync(x => x.id == workspace.id, workspace);
-            return _mapper.Map<Workspace, WorkspaceDTO>(workspace);
+            return _mapper.Map<Workspace, OutputWorkspaceDTO>(workspace);
         }
     }
 }
