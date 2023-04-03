@@ -14,11 +14,14 @@ namespace Room_Service.Data
             var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
             Workspaces = database.GetCollection<Workspace>(configuration.GetValue<string>("DatabaseSettings:WorkspaceCollectionName"));
-            Rooms = database.GetCollection<Room>(configuration.GetValue<string>("DatabaseSettings:RoomCollectionName"));
+            Rooms = database.GetCollection<PrivateRoom>(configuration.GetValue<string>("DatabaseSettings:RoomCollectionName"));
+            PublicRooms = database.GetCollection<PublicRoom>(configuration.GetValue<string>("DatabaseSettings:PublicRoomCollectionName"));
         }
 
         public IMongoCollection<Workspace> Workspaces { get; }
 
-        public IMongoCollection<Room> Rooms { get; }
+        public IMongoCollection<PrivateRoom> Rooms { get; }
+
+        public IMongoCollection<PublicRoom> PublicRooms { get; }
     }
 }

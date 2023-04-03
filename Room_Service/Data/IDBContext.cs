@@ -6,5 +6,6 @@ namespace Room_Service.Data;
 public interface IDBContext
 {
     IMongoCollection<Workspace> Workspaces { get; }
-    IMongoCollection<Room> Rooms { get; }
+    IMongoCollection<PrivateRoom> Rooms { get; }
+    IMongoCollection<PublicRoom> PublicRooms { get; }
 }

@@ -18,6 +18,6 @@ namespace Room_Service.Entities
         public List<Files>? files { get; set; }
 
         [BsonIgnore]
-        public List<Room>? rooms { get; set; }
+        public List<PrivateRoom>? rooms { get; set; }
     }
 }

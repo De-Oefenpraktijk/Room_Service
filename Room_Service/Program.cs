@@ -32,6 +32,7 @@ builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 // Add services to the container.
 builder.Services.AddScoped<IDBContext, DBContext>();
 builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IPublicRoomService, PublicRoomService>();
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
