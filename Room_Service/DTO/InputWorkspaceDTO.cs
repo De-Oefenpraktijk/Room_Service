@@ -1,9 +1,5 @@
-﻿using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
 using Room_Service.Entities;
-using System.Text.Json.Serialization;
-using System.ComponentModel.DataAnnotations;
 
 namespace Room_Service.DTO
 {
@@ -12,7 +8,13 @@ namespace Room_Service.DTO
         [Required]
         public string name { get; set; }
 
-        public string? imageFile { get; set; }
+        public string? imageName { get; set; }
+
+        public string? imageUri { get; set; }
+ 
+        public IFormFile? inputImageFile { get; set; }
+
+        public FileDTO? imageFile { get; set; } = new FileDTO();
 
         public List<FileDTO>? files { get; set; }
 
