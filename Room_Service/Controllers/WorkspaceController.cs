@@ -7,6 +7,7 @@ using System.Threading;
 using Azure.Storage;
 using Azure.Storage.Sas;
 using SharpCompress.Common;
+using Room_Service.Data;
 
 namespace Room_Service.Controllers
 {
@@ -15,7 +16,6 @@ namespace Room_Service.Controllers
     public class WorkspaceController : Controller
     {
         private readonly IWorkspaceService _workspaceService;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
         private readonly ILogger<RoomController> _log;
 
@@ -29,6 +29,7 @@ namespace Room_Service.Controllers
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromForm] InputWorkspaceDTO workspace)
         {
+             AzureData = new Room_Service.Data.AzureBlobStorage();
 
             //get blob details
             const string AccountName = "oefenpraktijkstorageacc";
