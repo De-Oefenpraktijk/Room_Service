@@ -34,7 +34,7 @@ namespace Room_Service.Controllers
                 {
                     return Ok(result);
                 }
-                return NotFound();
+                return Conflict();
             }
             catch (Exception ex)
             {

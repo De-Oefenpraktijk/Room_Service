@@ -12,9 +12,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Room_Service.XUnit", "Room_Service.XUnit\Room_Service.XUnit.csproj", "{211B746C-020A-4AE7-A5A8-485E1256D02E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Service.XUnit", "Room_Service.XUnit\Room_Service.XUnit.csproj", "{211B746C-020A-4AE7-A5A8-485E1256D02E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{152384CB-229D-4E53-BF9A-242EB55E0226} = {152384CB-229D-4E53-BF9A-242EB55E0226}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Room_Service.XIntegration", "Room_Service.XIntegration\Room_Service.XIntegration.csproj", "{8C0EF6D0-9BDA-46B1-A3D3-80DC45EE4435}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Room_Service.XIntegration", "Room_Service.XIntegration\Room_Service.XIntegration.csproj", "{8C0EF6D0-9BDA-46B1-A3D3-80DC45EE4435}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
