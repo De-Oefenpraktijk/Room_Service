@@ -29,7 +29,7 @@ namespace Room_Service.Controllers
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromForm] InputWorkspaceDTO workspace)
         {
-             AzureData = new Room_Service.Data.AzureBlobStorage();
+             var AzureData = new Room_Service.Data.AzureBlobStorage();
 
             //get blob details
             const string AccountName = "oefenpraktijkstorageacc";

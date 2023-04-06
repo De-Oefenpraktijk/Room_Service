@@ -37,7 +37,7 @@ namespace Room_Service.Services.Services
             var workspace = await _context.Workspaces.Find(x => x.id == workspaceId).FirstOrDefaultAsync();
             if (workspace == null)
             {
-                throw new Exception("workspace does not exist");
+                return null;
             }
             return _mapper.Map<Workspace, OutputWorkspaceDTO>(workspace);
         }
