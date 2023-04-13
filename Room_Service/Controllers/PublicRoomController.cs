@@ -42,5 +42,27 @@ namespace Room_Service.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Route("{workspaceid}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(OutputPublicRoomDTO), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<OutputPublicRoomDTO>> GetPublicRoomsOfWorkspace([FromRoute]string workspaceid)
+        {
+            try
+            {
+                var result = await _roomService.GetPublicRoomsOfWorkspace(workspaceid);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                return Conflict();
+            }
+            catch (Exception ex)
+            {
+                _log.LogInformation(ex, "Problem getting public rooms");
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
