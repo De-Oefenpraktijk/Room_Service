@@ -25,6 +25,7 @@ namespace Room_Service.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(OutputPublicRoomDTO), (int)HttpStatusCode.OK)]
+        [Authorize("create:public-rooms")]
         public async Task<ActionResult<OutputPublicRoomDTO>> Create([FromBody] InputPublicRoomDTO room)
         {
             try
