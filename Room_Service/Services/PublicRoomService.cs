@@ -39,5 +39,11 @@ namespace Room_Service.Services.Services
             await _context.PublicRooms.InsertOneAsync(room);
             return _mapper.Map<PublicRoom, OutputPublicRoomDTO>(room);
         }
+
+        public async Task<IEnumerable<OutputPublicRoomDTO>> GetPublicRoomsOfWorkspace(string workspaceId)
+        {
+            var result = await _context.PublicRooms.Find(r => r.WorkspaceId == workspaceId).ToListAsync();
+            return _mapper.Map<IEnumerable<PublicRoom>, IEnumerable<OutputPublicRoomDTO>>(result);
+        }
     }
 }
