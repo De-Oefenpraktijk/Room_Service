@@ -35,7 +35,8 @@ namespace Room_Service.Controllers
             const string ContainerName = "workspace-images";
 
 
-            try {
+            try
+            {
 
                 string blobStorageConnnectionString = "DefaultEndpointsProtocol=https;AccountName=oefenpraktijkstorageacc;AccountKey=wOzd9fNz/IKcurS7vkv49WJ9wYTe8Y7avYYcvfFrAt04GpSmO/Y8kb82UeLjau0El1y5txLUoj75+AStcMviFg==;EndpointSuffix=core.windows.net";
                 string blobStorageContainerName = "workspace-images";
@@ -59,7 +60,7 @@ namespace Room_Service.Controllers
                 Azure.Response<Azure.Storage.Blobs.Models.BlobContentInfo> response =
                     await container.UploadBlobAsync(workspace.imageName, stream);
 
-           
+
 
                 Uri blobContainerUri = new(string.Format("https://{0}.blob.core.windows.net/{1}",
                     AccountName, ContainerName));
@@ -74,9 +75,9 @@ namespace Room_Service.Controllers
 
                 workspace.imageFile = new FileDTO(workspace.imageName, relevantUri);
 
-                    OutputWorkspaceDTO result = await _workspaceService.CreateWorkspace(workspace);
+                OutputWorkspaceDTO result = await _workspaceService.CreateWorkspace(workspace);
 
-                return new ObjectResult(result); 
+                return new ObjectResult(result);
             }
             catch (Exception ex)
             {
