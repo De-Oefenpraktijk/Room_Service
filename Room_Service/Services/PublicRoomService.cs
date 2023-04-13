@@ -29,7 +29,7 @@ namespace Room_Service.Services.Services
             // Or if the user doesn't exist
             //Or if the workspace doesn't exist
             if (roomDTO.ScheduledDate < DateTime.UtcNow ||                 
-                !(await _socialServiceData.IsUserValid(roomDTO.HostId))||       
+                //!(await _socialServiceData.IsUserValid(roomDTO.HostId))||       
                 _workspaceService.GetWorkspaceByID(roomDTO.WorkspaceId) == null)    
             {
                 //Return null and perform a check in the controller
