@@ -28,7 +28,7 @@ namespace Room_Service.Services.Services
             // If date in the past
             // Or if the user doesn't exist
             //Or if the workspace doesn't exist
-            if (roomDTO.ScheduledDate < DateTime.Now ||                 
+            if (roomDTO.ScheduledDate < DateTime.UtcNow ||                 
                 !(await _socialServiceData.IsUserValid(roomDTO.HostId))||       
                 _workspaceService.GetWorkspaceByID(roomDTO.WorkspaceId) == null)    
             {
