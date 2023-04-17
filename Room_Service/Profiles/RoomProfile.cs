@@ -10,9 +10,9 @@ namespace Room_Service.Profiles
 	{
 		public RoomProfile()
 		{
-            CreateMap<OutputRoomDTO, Room>()
+            CreateMap<OutputRoomDTO, PrivateRoom>()
 				.ReverseMap();
-            CreateMap<InputRoomDTO, Room>()
+            CreateMap<InputRoomDTO, PrivateRoom>()
                 .ReverseMap();
         }
     }

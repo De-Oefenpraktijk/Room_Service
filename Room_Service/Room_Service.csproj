@@ -46,9 +46,6 @@
     <None Remove="Authorization\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Services\" />
-    <Folder Include="Profiles\" />
     <Folder Include="Authorization\" />
   </ItemGroup>
 </Project>

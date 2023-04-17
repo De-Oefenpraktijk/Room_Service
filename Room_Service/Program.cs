@@ -25,13 +25,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("read:user", policy => policy.Requirements.Add(new HasScopeRequirement("read:user", domain)));
+    options.AddPolicy("create:public-rooms", policy => policy.Requirements.Add(new HasScopeRequirement("create:public-rooms", domain)));
 });
 builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
 // Add services to the container.
 builder.Services.AddScoped<IDBContext, DBContext>();
 builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<ISocialServiceData, SocialServiceData>();
+builder.Services.AddScoped<IPublicRoomService, PublicRoomService>();
 builder.Services.AddScoped<IWorkspaceService, WorkspaceService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
