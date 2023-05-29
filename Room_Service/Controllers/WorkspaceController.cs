@@ -8,6 +8,7 @@ using Azure.Storage;
 using Azure.Storage.Sas;
 using SharpCompress.Common;
 using Room_Service.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Room_Service.Controllers
 {
@@ -27,6 +28,7 @@ namespace Room_Service.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputWorkspaceDTO>> CreateWorkspace([FromForm] InputWorkspaceDTO workspace)
         {
             //get blob details
@@ -88,6 +90,7 @@ namespace Room_Service.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputWorkspaceDTO>> GetAllWorkspaces()
         {
             try

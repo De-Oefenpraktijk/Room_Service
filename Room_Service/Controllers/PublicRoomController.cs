@@ -47,6 +47,7 @@ namespace Room_Service.Controllers
         [Route("{workspaceid}")]
         [HttpGet]
         [ProducesResponseType(typeof(OutputPublicRoomDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputPublicRoomDTO>> GetPublicRoomsOfWorkspace([FromRoute]string workspaceid)
         {
             try

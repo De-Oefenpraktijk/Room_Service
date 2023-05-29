@@ -24,6 +24,7 @@ namespace Room_Service.Controllers
         [Route("{workspaceid}/{userid}")]
         [HttpGet]
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputWorkspaceDTO>> GetUserRooms([FromRoute]string userid, [FromRoute]string workspaceid)
         {
             try {
@@ -43,6 +44,7 @@ namespace Room_Service.Controllers
         [Route("room/{roomid}")]
         [HttpGet]
         [ProducesResponseType(typeof(OutputWorkspaceDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputWorkspaceDTO>> GetRoomByID(string roomid)
         {
             try
@@ -63,6 +65,7 @@ namespace Room_Service.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(OutputRoomDTO), (int)HttpStatusCode.OK)]
+        [Authorize()]
         public async Task<ActionResult<OutputRoomDTO>> CreateRoom([FromBody] InputRoomDTO room)
         {
             try {
