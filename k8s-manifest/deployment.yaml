@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: roomservice
-          image: oefenpraktijkregistry.azurecr.io/room-stage:38078c72e089f6bdf5d436e9eaa078a4ecefa37b
+          image: oefenpraktijkregistry.azurecr.io/room:38078c72e089f6bdf5d436e9eaa078a4ecefa37b
           ports:
             - containerPort: 80
               protocol: TCP
