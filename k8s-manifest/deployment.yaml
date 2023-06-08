@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: room-service
-          image: oefenpraktijkregistry.azurecr.io/roomservice:v0.6
+          image: noimage
           ports:
             - containerPort: 80
               protocol: TCP
