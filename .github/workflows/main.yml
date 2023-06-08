@@ -71,4 +71,5 @@ jobs:
             manifests: ${{ env.DEPLOYMENT_MANIFEST_PATH }}
             namespace: ingress-basic
             images: |
-              ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+              oefenpraktijkregistry.azurecr.io/room-stage:38078c72e089f6bdf5d436e9eaa078a4ecefa37b
+             
