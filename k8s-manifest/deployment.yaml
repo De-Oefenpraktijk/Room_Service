@@ -14,7 +14,7 @@ spec:
         app: room-service
     spec:
       containers:
-        - name: room-service
+        - name: roomservice
           image: oefenpraktijkregistry.azurecr.io/room-stage:38078c72e089f6bdf5d436e9eaa078a4ecefa37b
           ports:
             - containerPort: 80
